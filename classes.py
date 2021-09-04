@@ -5,13 +5,15 @@ import pandas
 class Event:
     """An event in a session"""
 
-    def __init__(self, event, prev_event, next_event):
-        self.prev_event = prev_event
-        self.next_event = next_event
-        self.restaurant
-        self.offer  # True: offer tone ring | False: No Offer Tone Triggered
-        self.duration
-        """Keeping track of a log of events, regardless of event type"""
+    def __init__(self, event):
+        self.item = self
+        self.event_description = event[0]
+        self.timestamp = event[1]
+        self.event_code = event[2]
+        self.restaurant = event[3]
+        self.keyword = event[4]
+        self.prev = None
+        self.next = None
 
 
 class Block:
