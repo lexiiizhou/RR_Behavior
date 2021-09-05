@@ -125,7 +125,7 @@ def trial_info_filler(trials):
     :param trials: DLL of Trial Objects
     :return: Modifies trials, returns nothing
     """
-    current_trial = trials.head
+    current_trial = trials.sentinel.next
     while current_trial is not None:  # current_trial is a Trial object
         """
         current_trial: Trial Object

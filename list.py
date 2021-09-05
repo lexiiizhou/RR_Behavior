@@ -43,7 +43,7 @@ class DoublyLinkedList:
         self.size += 1
 
     def add_to_start(self, item):
-        if size == 0:
+        if self.size == 0:
             self.add_first(item)
             return
         new_last = copy.deepcopy(item)
@@ -52,3 +52,19 @@ class DoublyLinkedList:
         self.sentinel.next.prev = new_last
         self.sentinel.next = new_last
         self.size += 1
+
+    def get(self, index):
+        """
+        Get an item from the list by index
+        :param index: index of item to get
+        :return: item at index
+        """
+        if index < 0 or index > self.size -1 or self.size == 0:
+            return None
+        else:
+            p = self.sentinel.next
+            while index > 0:
+                p = p.next
+                index -= 1
+            return p.item
+
