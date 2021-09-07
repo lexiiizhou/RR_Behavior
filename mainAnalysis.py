@@ -35,9 +35,9 @@ def preprocessing(filepath):
     return events_list, event_code_dict
 
 
-def detect_keyword_in_event(events_list):
+def detect_keyword_in_event(events):
     """
-    event -- List: list of bonsai events
+    events -- List: list of bonsai events
     """
 
     def detect_keyword(string):
@@ -66,7 +66,7 @@ def detect_keyword_in_event(events_list):
         return keyword
 
     new_events_list = []
-    for i in events_list:
+    for i in events:
         if len(i) < 5:
             i_description = i[0]
             i += [detect_keyword(i_description)]
@@ -84,6 +84,7 @@ list_of_bonsaievents = ls.DoublyLinkedList()
 for i in events_list:
     event_object = cl.BonsaiEvent(i)
     list_of_bonsaievents.add_to_end(event_object)
+
 
 """Represent Trials as a DLL of bonsai_event objects in the same restaurant"""
 
@@ -124,7 +125,7 @@ def trial_writer(events_list):
 
 def trial_info_filler(trials):
     """
-    Fill in informations about each trial by interating through all trials
+    Fill in information about each trial by interating through all trials
     :param trials: DLL of Trial Objects
     :return: Modifies trials, returns nothing
     """
@@ -222,8 +223,10 @@ def trial_info_filler(trials):
             current_trial.exit = event_track[-1][1]
         current_trial = current_trial.next
 
+
 trials = trial_writer(list_of_bonsaievents)
 trial_info_filler(trials)
+
 
 def write_trial_to_df(trials):
     """

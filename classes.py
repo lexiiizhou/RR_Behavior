@@ -39,6 +39,8 @@ class Trial(Event_Node):
         self.outcome = None
         self.collection = None
         self.index = index
+        self.lap_index = None
+        self.block_index = None
         self.item = dll_of_bonsaievents
         self.current = self
 
