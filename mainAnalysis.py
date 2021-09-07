@@ -238,4 +238,4 @@ def write_trial_to_df(trials):
         current = current.next
     return df
 
-write_trial_to_df(trials)
+

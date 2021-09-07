@@ -4,6 +4,9 @@ class Event_Node:
         self.prev = None
         self.next = None
 
+    def info(self):
+        return self.current.__dict__
+
 
 class BonsaiEvent(Event_Node):
     def __init__(self, event):
@@ -38,9 +41,6 @@ class Trial(Event_Node):
         self.index = index
         self.item = dll_of_bonsaievents
         self.current = self
-
-    def info(self):
-        return self.current.__dict__
 
 
 class Lap(Event_Node):
