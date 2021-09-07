@@ -28,13 +28,13 @@ class Trial(Event_Node):
         """
         self.enter = None
         self.initiation = None
+        self.termination = None
         self.tone_prob = None
         self.restaurant = None
         self.choice = None
+        self.negotiation = None
         self.outcome = None
         self.collection = None
-        self.termination = None
-        self.exit = None
         self.index = index
         self.item = dll_of_bonsaievents
         self.current = self
@@ -61,4 +61,3 @@ class Session:
     def __init__(self, dll_of_laps):
         self.lap_count = dll_of_laps.size
         self.valid_trial_count
-
