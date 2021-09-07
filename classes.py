@@ -4,6 +4,7 @@ class Event_Node:
         self.prev = None
         self.next = None
 
+
 class BonsaiEvent(Event_Node):
     def __init__(self, event):
         self.item = event  # The bonsai_event object itself
@@ -25,36 +26,34 @@ class Trial(Event_Node):
         """
         events -- DLL: list of bonsai_event objects
         """
-        self.valid = False  # True: Valid Trial
+        self.enter = None
+        self.initiation = None
         self.tone_prob = None
         self.restaurant = None
         self.choice = None
-        self.negotiation = None
+        self.outcome = None
         self.collection = None
+        self.termination = None
+        self.exit = None
         self.index = index
         self.item = dll_of_bonsaievents
         self.current = self
+
+    def info(self):
+        return self.current.__dict__
 
 
 class Lap(Event_Node):
     """A doubly linked list of trials"""
 
-    def __init__(self, dll_of_trials, index):
+    def __init__(self, dll_of_trials, direction, index):
+        self.direction = direction
         self.index = index
         self.total_trial_count = dll_of_trials.size
         self.valid_trial_count = None
         self.item = dll_of_trials
         self.current = self
 
-
-class Block(Event_Node):
-    """A doubly linked list of laps"""
-    def __init__(self, dll_of_laps, index):
-        self.index = index
-        self.total_lap_count = dll_of_laps.size
-        self.item = dll_of_laps
-        self.current = self
-        self.duration = None
 
 class Session:
     """A doubly linked list of laps"""

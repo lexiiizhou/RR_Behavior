@@ -1,5 +1,5 @@
 import pandas as pd
-import list as ls
+import classes as cl
 import copy
 
 
@@ -7,7 +7,7 @@ class DoublyLinkedList:
     """A doubly linked list data structure"""
 
     def __init__(self):
-        self.sentinel = ls.Event_Node()
+        self.sentinel = cl.Event_Node()
         self.sentinel.next = None
         self.sentinel.prev = None
         self.size = 0
@@ -59,7 +59,7 @@ class DoublyLinkedList:
         :param index: index of item to get
         :return: item at index
         """
-        if index < 0 or index > self.size -1 or self.size == 0:
+        if index < 0 or index > self.size - 1 or self.size == 0:
             return None
         else:
             p = self.sentinel.next
@@ -67,4 +67,3 @@ class DoublyLinkedList:
                 p = p.next
                 index -= 1
             return p.item
-
