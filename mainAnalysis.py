@@ -263,6 +263,10 @@ def trial_info_filler(trials):
                             current_trial.outcome = event_track[i+3][1]
                             current_trial.quit = True
                             current_trial.termination = event_track[i+3][1]
+                elif 'hall' in str(event_track[i + 1]):
+                    """Hears offer tone but retreat back to hall in the same restaurant"""
+                    current_trial.choice = event_track[i+1][1]
+                    current_trial.termination = event_track[i + 1][1]
             current_trial.exit = event_track[-1][1]
         current_trial = current_trial.next
 
