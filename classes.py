@@ -35,12 +35,11 @@ class Trial(Event_Node):
         self.tone_prob = None
         self.restaurant = None
         self.choice = None
-        self.negotiation = None
-        self.outcome = None
+        self.outcome = None  #Quit, reward, or no reward
+        self.reward = False
+        self.quit = False
         self.collection = None
         self.index = index
-        self.lap_index = None
-        self.block_index = None
         self.item = dll_of_bonsaievents
         self.current = self
 
