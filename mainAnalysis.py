@@ -79,7 +79,7 @@ def detect_keyword_in_event(events):
 events_list, event_code_dict = preprocessing(filePath)
 events_list_with_keyword = detect_keyword_in_event(events_list)
 
-"""Write events as bonsai_event objects"""
+"""House Keeping"""
 
 
 def clean_duplicates(events_list):
