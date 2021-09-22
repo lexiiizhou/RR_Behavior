@@ -86,15 +86,14 @@ for i in events_list:
     event_object = cl.BonsaiEvent(i)
     list_of_bonsaievents.add_to_end(event_object)
 
-
 def write_dll_to_df(dll):
     df = pd.DataFrame.from_dict([dll.sentinel.next.info()])
     current = dll.sentinel.next.next
-    while current is not None:
+    while current != dll.sentinel:
         current_df = pd.DataFrame.from_dict([current.info()])
-        df = pd.concat([df, current_df])
+        df = pd.concat([df, current_df], axis=0)
         current = current.next
-    df = df.drop(columns=['item', 'current','next','prev'])
+    df = df.drop(columns=['item', 'next','prev'])
     return df
 
 
@@ -108,34 +107,34 @@ bonsaiEvent_df.to_csv('/Users/lexizhou/Desktop/bonsai.csv')
 
 
 def get_bonsai_event_item(item):
+    """Create a new bonsai event object with next and prev = None"""
     new_object = cl.BonsaiEvent(item)
     return new_object
 
 
 def trial_writer(events_list):
     current = events_list.sentinel.next
-    trial = ls.DoublyLinkedList()
-    trial.add_to_end(get_bonsai_event_item(current.item))
+    i = 0
+    trial = cl.Trial(get_bonsai_event_item(current.item), [current.item], i)
     current_restaurant = current.restaurant
 
     current = current.next
     trials = ls.DoublyLinkedList()
-    i = 0
-    while current is not None:
+
+    while current != events_list.sentinel:
         if current.restaurant == current_restaurant:
             """mouse in the same restaurant"""
-            bonsai_event = get_bonsai_event_item(current.item)
-            trial.add_to_end(bonsai_event)
+            trial.item.append(current.item)
         elif current.restaurant != current_restaurant:
             """mouse in a new restaurant"""
-            trials.add_to_end(cl.Trial(trial, i))
-            trial = ls.DoublyLinkedList()
-            trial.add_to_end(get_bonsai_event_item(current.item))
+            trials.add_to_end(trial)
+            trial = cl.Trial(get_bonsai_event_item(current.item), [current.item], i)
+            trial.item.append(current.item)
             i += 1
         current_restaurant = current.restaurant
         current = current.next
     if i == 0:
-        trials.add_to_end(cl.Trial(trial, i))
+        trials.add_to_end(trial)
     return trials
 
 
@@ -146,7 +145,7 @@ def trial_info_filler(trials):
     :return: Modifies trials, returns nothing
     """
     current_trial = trials.sentinel.next
-    while current_trial is not None:  # current_trial is a Trial object
+    while current_trial != trials.sentinel:  # current_trial is a Trial object
         """
         current_trial: Trial Object
         current_trial.sentinel.next.item: DLL of bonsai events
@@ -155,22 +154,15 @@ def trial_info_filler(trials):
         """
 
         """Fill Restaurant"""
-        current_trial.restaurant = current_trial.item.sentinel.next.restaurant
+        current_trial.restaurant = current_trial.item[0][-2]
 
         """Detect Offer"""
-        iterator = current_trial.item.sentinel.next
-        event_track = []
-        while iterator is not None:
-            event_and_timestamp = []
-            event_and_timestamp.append(iterator.keyword)
-            event_and_timestamp.append(iterator.timestamp)
-            event_track.append(event_and_timestamp)
-            iterator = iterator.next
+        event_track = current_trial.item
 
         for i in range(len(event_track)):
             current_trial.enter = event_track[0][1]
             if "_offer" in str(event_track[i]):
-                current_trial.tone_prob = event_track[i][0].split('_')[0]
+                current_trial.tone_prob = event_track[i][-1].split('_')[0]
                 current_trial.initiation = event_track[i][1]
 
                 """Write choice"""
@@ -221,8 +213,41 @@ def trial_info_filler(trials):
         current_trial = current_trial.next
 
 
+def write_lap_block(trials):
+
+    sequence = {
+        1: 2,
+        2: 3,
+        3: 4,
+        4: 1
+    }
+
+    current_trial = trials.sentinel.next
+    if current_trial.initiation:
+        current_trial.lapIndex, current_trial.blockIndex = 0, 0
+    block = 0
+    lap = 0
+    current_trial = current_trial.next
+    while current_trial != trials.sentinel:
+        if current_trial.initiation:
+            if current_trial.prev.initiation is None:
+                block += 1
+                lap = 0
+            elif sequence[current_trial.prev.restaurant] == current_trial.restaurant:
+                if current_trial.prev.restaurant == 4:
+                    lap += 1
+            current_trial.lapIndex = lap
+            current_trial.blockIndex = block
+        elif current_trial.initiation is None:
+            if current_trial.prev.initiation:
+                block += 1
+            current_trial.blockIndex = block
+        current_trial = current_trial.next
+
+
 trials = trial_writer(list_of_bonsaievents)
 trial_info_filler(trials)
+write_lap_block(trials)
 
 
 def write_trial_to_df(trials):
@@ -232,16 +257,15 @@ def write_trial_to_df(trials):
     """
     current = trials.sentinel.next
     df = pd.DataFrame.from_dict([trials.sentinel.next.info()])
-    while current is not None:
+    while current != trials.sentinel:
         current_df = pd.DataFrame.from_dict([current.info()])
         df = pd.concat([df, current_df])
         current = current.next
-    df = df.drop(columns=['item', 'current', 'next', 'prev']).iloc[1:, :]
+    df = df.drop(columns=['item', 'firstEventNode', 'next', 'prev']).iloc[1:, :]
     df = df.rename(columns={'index': 'trial_index'}).set_index('trial_index')
     return df
 
 
 trials_df = write_trial_to_df(trials)
-
-# trials_df.to_csv('/Users/lexizhou/Desktop/trials.csv')
+trials_df.to_csv('/Users/lexizhou/Desktop/trials.csv')
 

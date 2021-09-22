@@ -5,21 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="60f8aea5-1921-4bd6-b243-7507b0c35b97" name="Default Changelist" comment="?">
-      <change afterPath="$PROJECT_DIR$/clean_bonsai_output.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/RR_Behavior.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/RR_Behavior.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/RR_Behavior-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/RR_Behavior-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RR_Behavior.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/RR_Behavior.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/classes.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/list.py" beforeDir="false" afterPath="$PROJECT_DIR$/list.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainAnalysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainAnalysis.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyvenv.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/pyvenv.cfg" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DockManager">
+    <window id="1">
+      <content type="file-editors">
+        <state>
+          <leaf>
+            <file pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/run.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="345">
+                    <caret line="23" column="46" selection-start-line="23" selection-start-column="46" selection-end-line="23" selection-end-column="46" />
+                    <folding>
+                      <element signature="e#0#26#0" expanded="true" />
+                      <marker date="1632303899694" expanded="true" signature="408:413" ph="..." />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
+        </state>
+      </content>
+    </window>
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="-1142491166">
@@ -37,27 +56,27 @@
         <counts>
           <entry key="cfg" value="2" />
           <entry key="ipynb" value="2" />
-          <entry key="py" value="17" />
+          <entry key="py" value="22" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="IPNB" value="2" />
           <entry key="PLAIN_TEXT" value="2" />
-          <entry key="Python" value="17" />
+          <entry key="Python" value="22" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="cfg" value="5" />
-          <entry key="py" value="17229" />
+          <entry key="py" value="20866" />
           <entry key="txt" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="6" />
-          <entry key="Python" value="17229" />
+          <entry key="Python" value="20866" />
         </counts>
       </usages-collector>
     </session>
@@ -67,11 +86,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/classes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="178">
-              <caret line="15" selection-start-line="15" selection-end-line="15" />
+            <state relative-caret-position="15">
+              <caret line="1" column="23" selection-start-line="1" selection-start-column="23" selection-end-line="1" selection-end-column="23" />
               <folding>
-                <marker date="1631234311326" expanded="true" signature="17:180" ph="..." />
-                <marker date="1631234311326" expanded="true" signature="509:511" ph="..." />
+                <marker date="1632302436419" expanded="true" signature="17:144" ph="..." />
+                <marker date="1632302436419" expanded="true" signature="443:446" ph="..." />
               </folding>
             </state>
           </provider>
@@ -81,43 +100,37 @@
         <entry file="file://$PROJECT_DIR$/list.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="150">
-              <caret line="12" selection-start-line="12" selection-end-line="12" />
+              <caret line="10" column="26" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
               <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mainAnalysis.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="65">
-              <caret line="78" column="16" lean-forward="true" selection-start-line="78" selection-start-column="16" selection-end-line="78" selection-end-column="16" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-                <marker date="1632272896511" expanded="true" signature="2781:2784" ph="..." />
-                <marker date="1632272896511" expanded="true" signature="3596:3599" ph="..." />
-                <marker date="1632272896511" expanded="true" signature="4549:4552" ph="..." />
+                <element signature="e#0#20#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/clean_bonsai_output.py">
+        <entry file="file://$PROJECT_DIR$/mainAnalysis.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-21">
-              <caret line="3" column="41" selection-start-line="3" selection-start-column="41" selection-end-line="3" selection-end-column="41" />
+            <state relative-caret-position="45">
+              <caret line="3" column="9" lean-forward="true" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="9" />
+              <folding>
+                <marker date="1632303595761" expanded="true" signature="2781:2783" ph="..." />
+                <marker date="1632303595761" expanded="true" signature="3668:3669" ph="..." />
+                <marker date="1632303595761" expanded="true" signature="4550:4553" ph="..." />
+                <marker date="1632303595761" expanded="true" signature="8214:9070" ph="..." />
+                <marker date="1632303595761" expanded="true" signature="9164:9166" ph="..." />
+                <marker date="1632303595761" expanded="true" signature="9622:9713" ph="..." />
+                <marker date="1632303595761" expanded="true" signature="9767:9768" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file:///Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/codecs.py">
+        <entry file="file://$PROJECT_DIR$/clean_bonsai_output.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="309" selection-start-line="309" selection-end-line="309" />
+            <state relative-caret-position="-539">
+              <caret line="13" column="57" selection-start-line="13" selection-start-column="57" selection-end-line="13" selection-end-column="57" />
             </state>
           </provider>
         </entry>
@@ -147,20 +160,21 @@
         <option value="$PROJECT_DIR$/event_writer.py" />
         <option value="$PROJECT_DIR$/preprocessing.py" />
         <option value="$PROJECT_DIR$/sessionEventClass.py" />
-        <option value="$PROJECT_DIR$/list.py" />
-        <option value="$PROJECT_DIR$/classes.py" />
         <option value="$PROJECT_DIR$/RR_Behavior.ipynb" />
         <option value="$PROJECT_DIR$/pyvenv.cfg" />
-        <option value="$PROJECT_DIR$/mainAnalysis.py" />
         <option value="$PROJECT_DIR$/clean_bonsai_output.py" />
+        <option value="$PROJECT_DIR$/list.py" />
+        <option value="$PROJECT_DIR$/classes.py" />
+        <option value="$PROJECT_DIR$/mainAnalysis.py" />
+        <option value="$PROJECT_DIR$/run.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-188" />
-    <option name="y" value="92" />
+    <option name="x" value="303" />
+    <option name="y" value="66" />
     <option name="width" value="992" />
-    <option name="height" value="767" />
+    <option name="height" value="847" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -174,7 +188,9 @@
       </profile-state>
     </entry>
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -290,21 +306,21 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="19" y="55" width="992" height="767" extended-state="0" />
+    <frame x="732" y="23" width="992" height="847" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.47346073" visible="true" weight="0.31101957" />
-      <window_info id="Structure" order="1" sideWeight="0.52653927" side_tool="true" visible="true" weight="0.31101957" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4743833" visible="true" weight="0.31101957" />
+      <window_info id="Structure" order="1" sideWeight="0.5256167" side_tool="true" visible="true" weight="0.31101957" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4985755" visible="true" weight="0.30222222" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3911111" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4985755" visible="true" weight="0.30198675" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39072847" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49667618" weight="0.32867134" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.54985756" weight="0.32692307" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.54985756" weight="0.3258278" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5014245" side_tool="true" weight="0.32867134" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.32852563" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -351,13 +367,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/mainAnalysis.py</url>
-          <line>79</line>
-          <option name="timeStamp" value="47" />
-        </line-breakpoint>
-      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
@@ -424,27 +433,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/list.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/classes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
-          <folding>
-            <marker date="1631234311326" expanded="true" signature="17:180" ph="..." />
-            <marker date="1631234311326" expanded="true" signature="509:511" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -459,23 +447,65 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mainAnalysis.py">
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/pandas/core/frame.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="65">
-          <caret line="78" column="16" lean-forward="true" selection-start-line="78" selection-start-column="16" selection-end-line="78" selection-end-column="16" />
+        <state relative-caret-position="-221">
+          <caret line="1592" selection-start-line="1592" selection-end-line="1592" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/list.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="26" selection-start-line="10" selection-start-column="26" selection-end-line="10" selection-end-column="26" />
           <folding>
-            <element signature="e#0#19#0" expanded="true" />
-            <marker date="1632272896511" expanded="true" signature="2781:2784" ph="..." />
-            <marker date="1632272896511" expanded="true" signature="3596:3599" ph="..." />
-            <marker date="1632272896511" expanded="true" signature="4549:4552" ph="..." />
+            <element signature="e#0#20#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/clean_bonsai_output.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-21">
-          <caret line="3" column="41" selection-start-line="3" selection-start-column="41" selection-end-line="3" selection-end-column="41" />
+        <state relative-caret-position="-539">
+          <caret line="13" column="57" selection-start-line="13" selection-start-column="57" selection-end-line="13" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="23" selection-start-line="1" selection-start-column="23" selection-end-line="1" selection-end-column="23" />
+          <folding>
+            <marker date="1632302436419" expanded="true" signature="17:144" ph="..." />
+            <marker date="1632302436419" expanded="true" signature="443:446" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mainAnalysis.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="9" lean-forward="true" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="9" />
+          <folding>
+            <marker date="1632303595761" expanded="true" signature="2781:2783" ph="..." />
+            <marker date="1632303595761" expanded="true" signature="3668:3669" ph="..." />
+            <marker date="1632303595761" expanded="true" signature="4550:4553" ph="..." />
+            <marker date="1632303595761" expanded="true" signature="8214:9070" ph="..." />
+            <marker date="1632303595761" expanded="true" signature="9164:9166" ph="..." />
+            <marker date="1632303595761" expanded="true" signature="9622:9713" ph="..." />
+            <marker date="1632303595761" expanded="true" signature="9767:9768" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/run.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="46" selection-start-line="23" selection-start-column="46" selection-end-line="23" selection-end-column="46" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+            <marker date="1632303899694" expanded="true" signature="408:413" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
