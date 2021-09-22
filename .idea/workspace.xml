@@ -5,9 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="60f8aea5-1921-4bd6-b243-7507b0c35b97" name="Default Changelist" comment="?">
+      <change afterPath="$PROJECT_DIR$/clean_bonsai_output.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/RR_Behavior.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/RR_Behavior.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/RR_Behavior-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/RR_Behavior-checkpoint.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RR_Behavior.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/RR_Behavior.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classes.py" beforeDir="false" afterPath="$PROJECT_DIR$/classes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainAnalysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainAnalysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pyvenv.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/pyvenv.cfg" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,36 +25,39 @@
     <session id="-1142491166">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="16" />
-          <entry key="project.open.time.0" value="3" />
-          <entry key="project.open.time.2" value="6" />
-          <entry key="project.open.time.3" value="7" />
+          <entry key="project.closed" value="24" />
+          <entry key="project.open.time.0" value="5" />
+          <entry key="project.open.time.2" value="8" />
+          <entry key="project.open.time.3" value="11" />
           <entry key="project.open.time.5" value="1" />
-          <entry key="project.opened" value="17" />
+          <entry key="project.opened" value="25" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
+          <entry key="cfg" value="2" />
           <entry key="ipynb" value="2" />
-          <entry key="py" value="14" />
+          <entry key="py" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="IPNB" value="2" />
-          <entry key="Python" value="14" />
+          <entry key="PLAIN_TEXT" value="2" />
+          <entry key="Python" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="13097" />
+          <entry key="cfg" value="5" />
+          <entry key="py" value="17229" />
           <entry key="txt" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="1" />
-          <entry key="Python" value="13097" />
+          <entry key="PLAIN_TEXT" value="6" />
+          <entry key="Python" value="17229" />
         </counts>
       </usages-collector>
     </session>
@@ -58,10 +67,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/classes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="17" lean-forward="true" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
+            <state relative-caret-position="178">
+              <caret line="15" selection-start-line="15" selection-end-line="15" />
               <folding>
-                <marker date="1631148161218" expanded="true" signature="17:180" ph="..." />
+                <marker date="1631234311326" expanded="true" signature="17:180" ph="..." />
+                <marker date="1631234311326" expanded="true" signature="509:511" ph="..." />
               </folding>
             </state>
           </provider>
@@ -79,28 +89,35 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mainAnalysis.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="281" column="7" lean-forward="true" selection-start-line="281" selection-start-column="7" selection-end-line="281" selection-end-column="7" />
+            <state relative-caret-position="65">
+              <caret line="78" column="16" lean-forward="true" selection-start-line="78" selection-start-column="16" selection-end-line="78" selection-end-column="16" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
-                <marker date="1631151617770" expanded="true" signature="2607:2612" ph="..." />
-                <marker date="1631151617770" expanded="true" signature="2607:2834" ph="..." />
-                <marker date="1631151617770" expanded="true" signature="4099:4102" ph="..." />
-                <marker date="1631151617770" expanded="true" signature="4914:4917" ph="..." />
-                <marker date="1631151617770" expanded="true" signature="5867:5870" ph="..." />
+                <marker date="1632272896511" expanded="true" signature="2781:2784" ph="..." />
+                <marker date="1632272896511" expanded="true" signature="3596:3599" ph="..." />
+                <marker date="1632272896511" expanded="true" signature="4549:4552" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/clean_bonsai_output.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-21">
+              <caret line="3" column="41" selection-start-line="3" selection-start-column="41" selection-end-line="3" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/RR_Behavior.ipynb">
-          <provider selected="true" editor-type-id="ipnb-editor">
-            <state>
-              <selected id="9" />
+        <entry file="file:///Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/codecs.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="309" selection-start-line="309" selection-end-line="309" />
             </state>
           </provider>
         </entry>
@@ -132,15 +149,18 @@
         <option value="$PROJECT_DIR$/sessionEventClass.py" />
         <option value="$PROJECT_DIR$/list.py" />
         <option value="$PROJECT_DIR$/classes.py" />
+        <option value="$PROJECT_DIR$/RR_Behavior.ipynb" />
+        <option value="$PROJECT_DIR$/pyvenv.cfg" />
         <option value="$PROJECT_DIR$/mainAnalysis.py" />
+        <option value="$PROJECT_DIR$/clean_bonsai_output.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-45" />
-    <option name="y" value="26" />
-    <option name="width" value="1055" />
-    <option name="height" value="869" />
+    <option name="x" value="-188" />
+    <option name="y" value="92" />
+    <option name="width" value="992" />
+    <option name="height" value="767" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -180,7 +200,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="settings.github" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -194,7 +214,28 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.mainAnalysis">
+    <configuration name="clean_bonsai_output" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="RR_Behavior" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/clean_bonsai_output.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="mainAnalysis" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="RR_Behavior" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -216,9 +257,14 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.mainAnalysis" />
+      <item itemvalue="Python.clean_bonsai_output" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.mainAnalysis" />
+        <item itemvalue="Python.clean_bonsai_output" />
       </list>
     </recent_temporary>
   </component>
@@ -244,23 +290,23 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-45" y="26" width="1055" height="869" extended-state="0" />
+    <frame x="19" y="55" width="992" height="767" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.48659003" visible="true" weight="0.29206964" />
-      <window_info id="Structure" order="1" sideWeight="0.51341" side_tool="true" visible="true" weight="0.29206964" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.47346073" visible="true" weight="0.31101957" />
+      <window_info id="Structure" order="1" sideWeight="0.52653927" side_tool="true" visible="true" weight="0.31101957" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4985755" weight="0.2998713" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3989704" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4985755" visible="true" weight="0.30222222" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3911111" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49667618" weight="0.32867134" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.54985756" visible="true" weight="0.32818532" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.54985756" weight="0.32692307" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5014245" side_tool="true" weight="0.32867134" />
-      <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32852563" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -305,6 +351,13 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/mainAnalysis.py</url>
+          <line>79</line>
+          <option name="timeStamp" value="47" />
+        </line-breakpoint>
+      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
@@ -350,17 +403,24 @@
     <entry file="file://$PROJECT_DIR$/sessionEventClass.py" />
     <entry file="file://$PROJECT_DIR$/event_writer.py" />
     <entry file="file://$PROJECT_DIR$/preprocessing.py" />
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/codecs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-695">
-          <caret line="309" selection-start-line="309" selection-end-line="309" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/copy.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="249">
           <caret line="141" selection-start-line="141" selection-end-line="141" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RR_Behavior.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pyvenv.cfg">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="35" selection-start-line="1" selection-start-column="35" selection-end-line="1" selection-end-column="35" />
         </state>
       </provider>
     </entry>
@@ -374,35 +434,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/RR_Behavior.ipynb">
-      <provider selected="true" editor-type-id="ipnb-editor">
-        <state>
-          <selected id="9" />
+    <entry file="file://$PROJECT_DIR$/classes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+          <folding>
+            <marker date="1631234311326" expanded="true" signature="17:180" ph="..." />
+            <marker date="1631234311326" expanded="true" signature="509:511" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/classes.py">
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="17" lean-forward="true" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
-          <folding>
-            <marker date="1631148161218" expanded="true" signature="17:180" ph="..." />
-          </folding>
+        <state relative-caret-position="15">
+          <caret line="309" selection-start-line="309" selection-end-line="309" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="1657" selection-start-line="1657" selection-end-line="1657" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mainAnalysis.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="281" column="7" lean-forward="true" selection-start-line="281" selection-start-column="7" selection-end-line="281" selection-end-column="7" />
+        <state relative-caret-position="65">
+          <caret line="78" column="16" lean-forward="true" selection-start-line="78" selection-start-column="16" selection-end-line="78" selection-end-column="16" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
-            <marker date="1631151617770" expanded="true" signature="2607:2612" ph="..." />
-            <marker date="1631151617770" expanded="true" signature="2607:2834" ph="..." />
-            <marker date="1631151617770" expanded="true" signature="4099:4102" ph="..." />
-            <marker date="1631151617770" expanded="true" signature="4914:4917" ph="..." />
-            <marker date="1631151617770" expanded="true" signature="5867:5870" ph="..." />
+            <marker date="1632272896511" expanded="true" signature="2781:2784" ph="..." />
+            <marker date="1632272896511" expanded="true" signature="3596:3599" ph="..." />
+            <marker date="1632272896511" expanded="true" signature="4549:4552" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clean_bonsai_output.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-21">
+          <caret line="3" column="41" selection-start-line="3" selection-start-column="41" selection-end-line="3" selection-end-column="41" />
         </state>
       </provider>
     </entry>

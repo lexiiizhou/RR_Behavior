@@ -1,5 +1,5 @@
 import pandas as pd
-import copy
+import clean_bonsai_output as clean
 import list as ls
 import re
 import classes as cl
@@ -79,45 +79,7 @@ def detect_keyword_in_event(events):
 events_list, event_code_dict = preprocessing(filePath)
 events_list_with_keyword = detect_keyword_in_event(events_list)
 
-"""House Keeping"""
-
-
-def clean_duplicates(events_list):
-    new_list = copy.deepcopy(events_list)
-    for j in range(len(events_list)):
-        if j < len(events_list)-1 and events_list[j][0] == events_list[j+1][0]:
-            new_list.remove(events_list[j])
-    return new_list
-
-
-def clean_rejections(events_list):
-    new_list = copy.deepcopy(events_list)
-    for j in range(len(events_list)):
-        if j > 0 and events_list[j][-1] == 'reject':
-            if "_offer" not in str(events_list[j-1][-1]):
-                """rejection does not follow offer tone"""
-                new_list.remove(events_list[j])
-            elif events_list[j][-2] != events_list[j-1][-2]:
-                new_list.remove(events_list[j])
-    return new_list
-
-
-def clean_quits(events_list):
-    for j in range(len(events_list)):
-        if j > 0 and events_list[j][-1] == 'quit':
-            if "hall" in str(events_list[j-1][-1]):
-                events_list[j-1], events_list[j] = events_list[j], events_list[j-1]
-            elif events_list[j][-2] != events_list[j-1][-2]:
-                index = j-1
-                while events_list[index][-2] != events_list[j][-2]:
-                    index -= 1
-                events_list[index], events_list[j] = events_list[j], events_list[index]
-
-
-events_list = clean_duplicates(events_list)
-events_list = clean_rejections(events_list)
-clean_quits(events_list)
-
+events_list = clean.clean_and_organize(events_list)
 
 list_of_bonsaievents = ls.DoublyLinkedList()
 for i in events_list:
@@ -205,10 +167,6 @@ def trial_info_filler(trials):
             event_track.append(event_and_timestamp)
             iterator = iterator.next
 
-        def is_last(item, list):
-            """check if item is the last of the list"""
-            return item == list[-1]
-
         for i in range(len(event_track)):
             current_trial.enter = event_track[0][1]
             if "_offer" in str(event_track[i]):
@@ -216,14 +174,7 @@ def trial_info_filler(trials):
                 current_trial.initiation = event_track[i][1]
 
                 """Write choice"""
-                if is_last(event_track[i], event_track):
-                    """
-                    if offer tone is the last event in this trial, terminate
-                    trial_type = reject
-                    """
-                    current_trial.choice = event_track[i][1]
-                    current_trial.termination = event_track[i][1]
-                elif 'reject' in str(event_track[i + 1]):
+                if 'reject' in str(event_track[i + 1]):
                     """
                     Exiting offer zone
                     """
@@ -239,17 +190,16 @@ def trial_info_filler(trials):
                     if "quit" in str(event_track[i+2]):
                         """Exiting restaurant"""
                         current_trial.outcome = event_track[i + 2][1]
-                        current_trial.quit = True
+                        current_trial.quit = 1
                         current_trial.termination = event_track[i + 2][1]
                     elif 'noreward' in str(event_track[i + 2]):
                         current_trial.outcome = event_track[i + 2][1]
-                        current_trial.reward = False
                         current_trial.termination = event_track[i + 2][1]
                     elif 'servo' in str(event_track[i + 2]):
                         """
                         if servo arm opens, outcome presented
                         """
-                        current_trial.reward = True
+                        current_trial.reward = 1
                         current_trial.outcome = event_track[i + 2][1]
 
                         """Write oucome collection"""
@@ -261,7 +211,7 @@ def trial_info_filler(trials):
                             animal rejects pellet and move on to the next restaurant
                             """
                             current_trial.outcome = event_track[i+3][1]
-                            current_trial.quit = True
+                            current_trial.quit = 1
                             current_trial.termination = event_track[i+3][1]
                 elif 'hall' in str(event_track[i + 1]):
                     """Hears offer tone but retreat back to hall in the same restaurant"""
@@ -292,4 +242,6 @@ def write_trial_to_df(trials):
 
 
 trials_df = write_trial_to_df(trials)
-trials_df.to_csv('/Users/lexizhou/Desktop/trials.csv')
+
+# trials_df.to_csv('/Users/lexizhou/Desktop/trials.csv')
+
