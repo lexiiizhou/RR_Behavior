@@ -7,7 +7,6 @@ import classes as cl
 
 filePath = '/Users/lexizhou/Desktop/RR_bonsai_events_TS_reject.csv'
 
-
 def preprocessing(filepath):
     events = pd.read_csv(filepath)
     events = events.rename(columns={'9':"event_code", events.columns[0]: 'event', '246.7670912': 'timestamp'})
@@ -77,14 +76,16 @@ def detect_keyword_in_event(events):
 
 
 events_list, event_code_dict = preprocessing(filePath)
-events_list_with_keyword = detect_keyword_in_event(events_list)
+events_list = clean.clean_and_organize(detect_keyword_in_event(events_list))
 
-events_list = clean.clean_and_organize(events_list)
 
-list_of_bonsaievents = ls.DoublyLinkedList()
-for i in events_list:
-    event_object = cl.BonsaiEvent(i)
-    list_of_bonsaievents.add_to_end(event_object)
+def write_bonsaiEvent_dll(events_list):
+    list_of_bonsaievents = ls.DoublyLinkedList()
+    for i in events_list:
+        event_object = cl.BonsaiEvent(i)
+        list_of_bonsaievents.add_to_end(event_object)
+    return list_of_bonsaievents
+
 
 def write_dll_to_df(dll):
     df = pd.DataFrame.from_dict([dll.sentinel.next.info()])
@@ -96,7 +97,7 @@ def write_dll_to_df(dll):
     df = df.drop(columns=['item', 'next','prev'])
     return df
 
-
+list_of_bonsaievents = write_bonsaiEvent_dll(events_list)
 bonsaiEvent_df = write_dll_to_df(list_of_bonsaievents)
 bonsaiEvent_df.to_csv('/Users/lexizhou/Desktop/bonsai.csv')
 
