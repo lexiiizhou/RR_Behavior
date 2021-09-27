@@ -29,6 +29,7 @@ class Trial(Event_Node):
         """
         self.enter = None
         self.initiation = None
+        self.tEntry = None
         self.firstEventNode = first_event
         self.termination = None
         self.tone_prob = None

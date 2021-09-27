@@ -1,26 +1,34 @@
 import pandas as pd
-import clean_bonsai_output as clean
 import list as ls
 import re
+from copy import deepcopy
 import classes as cl
 
+def preprocessing(filepath, eventcodedict):
+    bonsai_output = pd.read_csv(filepath, names=['timestamp'])
+    keys = list(eventcodedict.keys())
 
-filePath = '/Users/lexizhou/Desktop/RR_bonsai_events_TS_reject.csv'
+    bonsai_output['eventcode'] = bonsai_output['timestamp']. \
+        map(lambda code: re.findall('[0-9]', code))
+    bonsai_output['length'] = bonsai_output['eventcode'].map(lambda code: len(code))
+    bonsai_output = bonsai_output[bonsai_output['length'] >= 13].drop(columns=['length'])
 
-def preprocessing(filepath):
-    events = pd.read_csv(filepath)
-    events = events.rename(columns={'9':"event_code", events.columns[0]: 'event', '246.7670912': 'timestamp'})
-    if len(events.columns) > 3:
-        events = events.drop(events.columns[3], axis=1)
-    if 'Unnamed: 3' in events.columns:
-        events = events.drop(columns=['Unnamed: 3'])
-    events['event'] = events['event'].str.replace('[^\w\s]', '')
+    bonsai_output['timestamp'] = bonsai_output['eventcode']. \
+        map(lambda code: float("".join(code[:12])) / 1000)
+    bonsai_output['eventcode'] = bonsai_output['eventcode']. \
+        map(lambda code: int("".join(code[12:])))
+    bonsai_output = bonsai_output[bonsai_output.eventcode.isin(keys)]. \
+        reset_index(drop=True)
 
-    event_code_dic = events.groupby(['event', 'event_code']).size()
-    event_code_dic = event_code_dic.to_frame().reset_index().set_index('event_code')
-    event_code_dict = event_code_dic.to_dict()['event']
-
-    events_list = events.values.tolist()
+    bonsai_output['event'] = bonsai_output['eventcode']. \
+        map(lambda code: eventcodedict[code])
+    first_timestamp = bonsai_output.iloc[0, 0]
+    firsthall = bonsai_output[bonsai_output['eventcode'] == 9].index[0]
+    bonsai_output['timestamp'] = bonsai_output['timestamp']. \
+        map(lambda t: (t - first_timestamp) / 1000)
+    bonsai_output = bonsai_output[['event', 'timestamp', 'eventcode']]
+    bonsai_output_final = bonsai_output[firsthall:]
+    events_list = bonsai_output_final.values.tolist()
 
     def restaurant_extractor(events_list):
         for i in events_list:
@@ -31,7 +39,8 @@ def preprocessing(filepath):
                         i.append(int(j))
 
     restaurant_extractor(events_list)
-    return events_list, event_code_dict
+
+    return events_list
 
 
 def detect_keyword_in_event(events):
@@ -52,7 +61,7 @@ def detect_keyword_in_event(events):
             keyword = 'enter'
         elif string.__contains__('Quit'):
             keyword = 'quit'
-        elif string.__contains__('noreward'):
+        elif string.__contains__('no-reward'):
             keyword = 'noreward'
         elif string.__contains__('taken'):
             keyword = 'taken'
@@ -62,6 +71,8 @@ def detect_keyword_in_event(events):
             keyword = 'enter'
         elif string.__contains__('Reject'):
             keyword = 'reject'
+        elif string.__contains__('Entry'):
+            keyword = 'tentry'
         return keyword
 
     new_events_list = []
@@ -73,10 +84,6 @@ def detect_keyword_in_event(events):
         else:
             new_events_list.append(i)
     return new_events_list
-
-
-events_list, event_code_dict = preprocessing(filePath)
-events_list = clean.clean_and_organize(detect_keyword_in_event(events_list))
 
 
 def write_bonsaiEvent_dll(events_list):
@@ -96,10 +103,6 @@ def write_dll_to_df(dll):
         current = current.next
     df = df.drop(columns=['item', 'next','prev'])
     return df
-
-list_of_bonsaievents = write_bonsaiEvent_dll(events_list)
-bonsaiEvent_df = write_dll_to_df(list_of_bonsaievents)
-bonsaiEvent_df.to_csv('/Users/lexizhou/Desktop/bonsai.csv')
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -139,6 +142,10 @@ def trial_writer(events_list):
     return trials
 
 
+def getindex(lists, value):
+    return next(i for i, v in enumerate(lists) if value in v)
+
+
 def trial_info_filler(trials):
     """
     Fill in information about each trial by interating through all trials
@@ -156,61 +163,128 @@ def trial_info_filler(trials):
 
         """Fill Restaurant"""
         current_trial.restaurant = current_trial.item[0][-2]
+        current_trial.enter = current_trial.item[0][1]
+        current_trial.exit = current_trial.item[-1][1]
 
         """Detect Offer"""
-        event_track = current_trial.item
+        # Create a deep copy such that the original object variable won't be modified
+        event_track = deepcopy(current_trial.item)
 
-        for i in range(len(event_track)):
-            current_trial.enter = event_track[0][1]
-            if "_offer" in str(event_track[i]):
-                current_trial.tone_prob = event_track[i][-1].split('_')[0]
-                current_trial.initiation = event_track[i][1]
+        """Write events"""
+        for j in range(len(event_track)):
+            if "_offer" in str(event_track[j]):
+                sorted_list = [event_track[j]]
+                current_trial.initiation = event_track[j][1]
+                current_trial.tone_prob = event_track[j][-1].split('_')[0]
+                if 'tentry' in str(event_track[j:]):
+                    """check if tentry happened"""
+                    tentry_index = getindex(event_track[j:], 'tentry')
+                    current_trial.tEntry = event_track[tentry_index+j][1]
+                    sorted_list.append(event_track[tentry_index + j])
+                    if 'enter' in str(event_track[tentry_index:]):
+                        """accepting offer"""
+                        enter_index = getindex(event_track[tentry_index:], 'enter')
+                        current_trial.choice = event_track[enter_index+tentry_index][1]
+                        sorted_list.append(event_track[enter_index + tentry_index])
+                        if 'servo' in str(event_track[enter_index:]):
+                            servo_index = getindex(event_track[enter_index:], 'servo')
+                            current_trial.reward = 1
+                            current_trial.outcome = event_track[servo_index+enter_index][1]
+                            sorted_list.append(event_track[servo_index+enter_index])
+                            if 'taken' in str(event_track[servo_index:]):
+                                taken_index = getindex(event_track[servo_index:], 'taken')
+                                sorted_list.append(event_track[taken_index+servo_index])
+                                current_trial.collection = event_track[taken_index+servo_index][1]
+                                if 'quit' in str(event_track[taken_index]):
+                                    """exit restaurant after obtaining reward"""
+                                    quit_index = getindex(event_track[taken_index:], 'quit')
+                                    sorted_list.append(event_track[quit_index+taken_index])
+                                    current_trial.quit = 1
+                                    current_trial.outcome = event_track[quit_index+taken_index][1]
+                                    current_trial.termination = event_track[quit_index+taken_index][1]
+                            elif 'quit' in str(event_track[servo_index:]):
+                                """exit wait zone after servo open without taking pellets"""
+                                quit_index = getindex(event_track[servo_index:], 'quit')
+                                current_trial.quit = 1
+                                current_trial.quit = event_track[quit_index+servo_index][1]
+                                current_trial.termination = event_track[quit_index + servo_index][1]
+                                sorted_list.append(event_track[quit_index+servo_index])
+                        elif 'noreward' in str(event_track[enter_index:]):
+                            noreward_index = getindex(event_track[enter_index:], 'noreward')
+                            current_trial.outcome = event_track[noreward_index + enter_index][1]
+                            current_trial.termination = event_track[noreward_index + enter_index][1]
+                            sorted_list.append(event_track[noreward_index + enter_index])
+                    elif 'reject' in str(event_track[tentry_index:]):
+                        """existed t junction and went to the next restaurant"""
+                        reject_index = getindex(event_track[tentry_index:], 'reject')
+                        current_trial.termination = event_track[tentry_index + reject_index][1]
+                        current_trial.choice = event_track[tentry_index + reject_index][1]
+                        sorted_list.append(event_track[tentry_index + reject_index])
+                elif 'reject' in str(event_track[j:]):
+                    """rejecting offer and backtrack into the hallway in current restaurant"""
+                    reject_index = getindex(event_track[j:], 'reject')
+                    current_trial.choice = event_track[j+reject_index][1]
+                    current_trial.termination = event_track[j+reject_index][1]
+                    sorted_list.append(event_track[j+reject_index])
 
-                """Write choice"""
-                if 'reject' in str(event_track[i + 1]):
-                    """
-                    Exiting offer zone
-                    """
-                    current_trial.choice = event_track[i+1][1]
-                    current_trial.termination = event_track[i][1]
-                elif 'enter' in str(event_track[i + 1]):
-                    """
-                    if animal enters the restaurant: accept
-                    """
-                    current_trial.choice = event_track[i + 1][1]
-
-                    """Write outcome(reward, or noreward)"""
-                    if "quit" in str(event_track[i+2]):
-                        """Exiting restaurant"""
-                        current_trial.outcome = event_track[i + 2][1]
-                        current_trial.quit = 1
-                        current_trial.termination = event_track[i + 2][1]
-                    elif 'noreward' in str(event_track[i + 2]):
-                        current_trial.outcome = event_track[i + 2][1]
-                        current_trial.termination = event_track[i + 2][1]
-                    elif 'servo' in str(event_track[i + 2]):
-                        """
-                        if servo arm opens, outcome presented
-                        """
-                        current_trial.reward = 1
-                        current_trial.outcome = event_track[i + 2][1]
-
-                        """Write oucome collection"""
-                        if 'taken' in str(event_track[i+3]):
-                            current_trial.collection = event_track[i + 3][1]
-                            current_trial.termination = event_track[i + 3][1]
-                        elif "quit" in str(event_track[i+3]):
-                            """
-                            animal rejects pellet and move on to the next restaurant
-                            """
-                            current_trial.outcome = event_track[i+3][1]
-                            current_trial.quit = 1
-                            current_trial.termination = event_track[i+3][1]
-                elif 'hall' in str(event_track[i + 1]):
-                    """Hears offer tone but retreat back to hall in the same restaurant"""
-                    current_trial.choice = event_track[i+1][1]
-                    current_trial.termination = event_track[i + 1][1]
-            current_trial.exit = event_track[-1][1]
+        # for i in range(len(event_track)):
+        #     current_trial.enter = event_track[0][1]
+        #     if "_offer" in str(event_track[i]):
+        #         """
+        #         offer tone played, trial initiated
+        #         """
+        #         current_trial.tone_prob = event_track[i][-1].split('_')[0]
+        #         current_trial.initiation = event_track[i][1]
+        #
+        #         if 'reject' in str(event_track[i+1]):
+        #             """
+        #             Exiting offer zone and backtrack to current restaurant hallway
+        #             """
+        #             current_trial.choice = event_track[i+2][1]
+        #             current_trial.termination = event_track[i+2][1]
+        #         elif 'tentry' in str(event_track[i+1]):
+        #             """enters t junction"""
+        #             current_trial.tEntry = event_track[i+1][1]
+        #             if 'reject' in str(event_track[i + 2]):
+        #                 """
+        #                 Exiting offer zone and enter next restaurant
+        #                 """
+        #                 current_trial.choice = event_track[i+2][1]
+        #                 current_trial.termination = event_track[i+2][1]
+        #             elif 'enter' in str(event_track[i + 2]):
+        #                 """
+        #                 if animal enters the restaurant: accept
+        #                 """
+        #                 current_trial.choice = event_track[i + 2][1]
+        #
+        #                 """Write outcome(reward, or noreward)"""
+        #                 if "quit" in str(event_track[i+3]):
+        #                     """Exiting restaurant"""
+        #                     current_trial.outcome = event_track[i + 3][1]
+        #                     current_trial.quit = 1
+        #                     current_trial.termination = event_track[i + 3][1]
+        #                 elif 'noreward' in str(event_track[i + 3]):
+        #                     current_trial.outcome = event_track[i + 3][1]
+        #                     current_trial.termination = event_track[i + 3][1]
+        #                 elif 'servo' in str(event_track[i + 3]):
+        #                     """
+        #                     if servo arm opens, outcome presented
+        #                     """
+        #                     current_trial.reward = 1
+        #                     current_trial.outcome = event_track[i + 3][1]
+        #
+        #                     """Write oucome collection"""
+        #                     if 'taken' in str(event_track[i+4]):
+        #                         current_trial.collection = event_track[i + 4][1]
+        #                         current_trial.termination = event_track[i + 4][1]
+        #                     elif "quit" in str(event_track[i+4]):
+        #                         """
+        #                         animal rejects pellet and move on to the next restaurant
+        #                         """
+        #                         current_trial.outcome = event_track[i+4][1]
+        #                         current_trial.quit = 1
+        #                         current_trial.termination = event_track[i+4][1]
+        #     current_trial.exit = event_track[-1][1]
         current_trial = current_trial.next
 
 
@@ -246,11 +320,6 @@ def write_lap_block(trials):
         current_trial = current_trial.next
 
 
-trials = trial_writer(list_of_bonsaievents)
-trial_info_filler(trials)
-write_lap_block(trials)
-
-
 def write_trial_to_df(trials):
     """
     trials -- DLL: DLL representation of trials
@@ -265,8 +334,3 @@ def write_trial_to_df(trials):
     df = df.drop(columns=['item', 'firstEventNode', 'next', 'prev']).iloc[1:, :]
     df = df.rename(columns={'index': 'trial_index'}).set_index('trial_index')
     return df
-
-
-trials_df = write_trial_to_df(trials)
-trials_df.to_csv('/Users/lexizhou/Desktop/trials.csv')
-
