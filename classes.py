@@ -30,6 +30,7 @@ class Trial(Event_Node):
         self.enter = None
         self.initiation = None
         self.tEntry = None
+        self.exit = None
         self.firstEventNode = first_event
         self.termination = None
         self.tone_prob = None
@@ -43,3 +44,4 @@ class Trial(Event_Node):
         self.lapIndex = 0
         self.blockIndex = 0
         self.item = list_of_bonsaievents
+        self.comment = None

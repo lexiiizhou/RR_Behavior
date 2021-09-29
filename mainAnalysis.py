@@ -4,6 +4,7 @@ import re
 from copy import deepcopy
 import classes as cl
 
+
 def preprocessing(filepath, eventcodedict):
     bonsai_output = pd.read_csv(filepath, names=['timestamp'])
     keys = list(eventcodedict.keys())
@@ -65,8 +66,8 @@ def detect_keyword_in_event(events):
             keyword = 'noreward'
         elif string.__contains__('taken'):
             keyword = 'taken'
-        elif string.__contains__('Servo'):
-            keyword = 'servo'
+        elif string.__contains__('reward tone'):
+            keyword = 'rewarded'
         elif string.__contains__('Enter'):
             keyword = 'enter'
         elif string.__contains__('Reject'):
@@ -166,125 +167,109 @@ def trial_info_filler(trials):
         current_trial.enter = current_trial.item[0][1]
         current_trial.exit = current_trial.item[-1][1]
 
+        def trial_detector(sublist, index):
+            if 'enter' in str(sublist[index:]):
+                """accepting offer"""
+                enter_index = getindex(sublist[index:], 'enter') + index
+                current_trial.choice = sublist[enter_index][1]
+                if 'rewarded' in str(sublist):
+                    """
+                    Realized that no matter the animal's choice, the outcome is always timestamped before offer tone
+                    Therefore only check if the sublist contains "rewarded" after checking that there was an entry to
+                    the restaurant
+                    """
+                    rewarded_index = getindex(sublist, 'rewarded')
+                    current_trial.reward = 1
+                    current_trial.outcome = sublist[rewarded_index][1]
+                    if 'taken' in str(sublist[rewarded_index:]):
+                        taken_index = getindex(sublist[rewarded_index:], 'taken') + rewarded_index
+                        current_trial.collection = sublist[taken_index][1]
+                        current_trial.termination = sublist[taken_index][1]
+                    elif 'quit' in str(sublist[rewarded_index:]):
+                        """exit wait zone after servo open without taking pellets"""
+                        quit_index = getindex(sublist[rewarded_index:], 'quit') + rewarded_index
+                        current_trial.outcome = sublist[quit_index][1]
+                        current_trial.termination = sublist[quit_index][1]
+                if 'taken' in str(sublist):
+                    """rewarded tone missing"""
+                    taken_index = getindex(sublist, 'taken')
+                    current_trial.reward = 1
+                    current_trial.collection = sublist[taken_index][1]
+                    current_trial.termination = sublist[taken_index][1]
+                    current_trial.comment = 'rewarded tone time stamp missing'
+                elif 'noreward' in str(sublist):
+                    noreward_index = getindex(sublist, 'noreward')
+                    current_trial.outcome = sublist[noreward_index][1]
+                    current_trial.termination = sublist[noreward_index][1]
+                elif 'quit' in str(sublist[enter_index:]):
+                    quit_index = getindex(sublist, 'quit')
+                    current_trial.quit = 1
+                    current_trial.outcome = sublist[quit_index][1]
+                    current_trial.termination = sublist[quit_index][1]
+            elif 'reject' in str(sublist[index:]):
+                """existed t junction and went to the next restaurant"""
+                reject_index = getindex(sublist[index:], 'reject') + index
+                current_trial.termination = sublist[reject_index][1]
+                current_trial.choice = sublist[reject_index][1]
+
         """Detect Offer"""
         # Create a deep copy such that the original object variable won't be modified
         event_track = deepcopy(current_trial.item)
 
         """Write events"""
         for j in range(len(event_track)):
+            offer = False
             if "_offer" in str(event_track[j]):
-                sorted_list = [event_track[j]]
+                offer = True
                 current_trial.initiation = event_track[j][1]
                 current_trial.tone_prob = event_track[j][-1].split('_')[0]
                 if 'tentry' in str(event_track[j:]):
                     """check if tentry happened"""
-                    tentry_index = getindex(event_track[j:], 'tentry')
-                    current_trial.tEntry = event_track[tentry_index+j][1]
-                    sorted_list.append(event_track[tentry_index + j])
-                    if 'enter' in str(event_track[tentry_index:]):
-                        """accepting offer"""
-                        enter_index = getindex(event_track[tentry_index:], 'enter')
-                        current_trial.choice = event_track[enter_index+tentry_index][1]
-                        sorted_list.append(event_track[enter_index + tentry_index])
-                        if 'servo' in str(event_track[enter_index:]):
-                            servo_index = getindex(event_track[enter_index:], 'servo')
-                            current_trial.reward = 1
-                            current_trial.outcome = event_track[servo_index+enter_index][1]
-                            sorted_list.append(event_track[servo_index+enter_index])
-                            if 'taken' in str(event_track[servo_index:]):
-                                taken_index = getindex(event_track[servo_index:], 'taken')
-                                sorted_list.append(event_track[taken_index+servo_index])
-                                current_trial.collection = event_track[taken_index+servo_index][1]
-                                if 'quit' in str(event_track[taken_index]):
-                                    """exit restaurant after obtaining reward"""
-                                    quit_index = getindex(event_track[taken_index:], 'quit')
-                                    sorted_list.append(event_track[quit_index+taken_index])
-                                    current_trial.quit = 1
-                                    current_trial.outcome = event_track[quit_index+taken_index][1]
-                                    current_trial.termination = event_track[quit_index+taken_index][1]
-                            elif 'quit' in str(event_track[servo_index:]):
-                                """exit wait zone after servo open without taking pellets"""
-                                quit_index = getindex(event_track[servo_index:], 'quit')
-                                current_trial.quit = 1
-                                current_trial.quit = event_track[quit_index+servo_index][1]
-                                current_trial.termination = event_track[quit_index + servo_index][1]
-                                sorted_list.append(event_track[quit_index+servo_index])
-                        elif 'noreward' in str(event_track[enter_index:]):
-                            noreward_index = getindex(event_track[enter_index:], 'noreward')
-                            current_trial.outcome = event_track[noreward_index + enter_index][1]
-                            current_trial.termination = event_track[noreward_index + enter_index][1]
-                            sorted_list.append(event_track[noreward_index + enter_index])
-                    elif 'reject' in str(event_track[tentry_index:]):
-                        """existed t junction and went to the next restaurant"""
-                        reject_index = getindex(event_track[tentry_index:], 'reject')
-                        current_trial.termination = event_track[tentry_index + reject_index][1]
-                        current_trial.choice = event_track[tentry_index + reject_index][1]
-                        sorted_list.append(event_track[tentry_index + reject_index])
+                    tentry_index = getindex(event_track[j:], 'tentry') + j
+                    current_trial.tEntry = event_track[tentry_index][1]
+                    trial_detector(event_track, tentry_index)
+                elif 'enter' in str(event_track[j:]):
+                    """t junction entry somehow was not captured"""
+                    current_trial.comment = 't junction entry timestamp missing'
+                    trial_detector(event_track, j)
                 elif 'reject' in str(event_track[j:]):
                     """rejecting offer and backtrack into the hallway in current restaurant"""
-                    reject_index = getindex(event_track[j:], 'reject')
-                    current_trial.choice = event_track[j+reject_index][1]
-                    current_trial.termination = event_track[j+reject_index][1]
-                    sorted_list.append(event_track[j+reject_index])
-
-        # for i in range(len(event_track)):
-        #     current_trial.enter = event_track[0][1]
-        #     if "_offer" in str(event_track[i]):
-        #         """
-        #         offer tone played, trial initiated
-        #         """
-        #         current_trial.tone_prob = event_track[i][-1].split('_')[0]
-        #         current_trial.initiation = event_track[i][1]
-        #
-        #         if 'reject' in str(event_track[i+1]):
-        #             """
-        #             Exiting offer zone and backtrack to current restaurant hallway
-        #             """
-        #             current_trial.choice = event_track[i+2][1]
-        #             current_trial.termination = event_track[i+2][1]
-        #         elif 'tentry' in str(event_track[i+1]):
-        #             """enters t junction"""
-        #             current_trial.tEntry = event_track[i+1][1]
-        #             if 'reject' in str(event_track[i + 2]):
-        #                 """
-        #                 Exiting offer zone and enter next restaurant
-        #                 """
-        #                 current_trial.choice = event_track[i+2][1]
-        #                 current_trial.termination = event_track[i+2][1]
-        #             elif 'enter' in str(event_track[i + 2]):
-        #                 """
-        #                 if animal enters the restaurant: accept
-        #                 """
-        #                 current_trial.choice = event_track[i + 2][1]
-        #
-        #                 """Write outcome(reward, or noreward)"""
-        #                 if "quit" in str(event_track[i+3]):
-        #                     """Exiting restaurant"""
-        #                     current_trial.outcome = event_track[i + 3][1]
-        #                     current_trial.quit = 1
-        #                     current_trial.termination = event_track[i + 3][1]
-        #                 elif 'noreward' in str(event_track[i + 3]):
-        #                     current_trial.outcome = event_track[i + 3][1]
-        #                     current_trial.termination = event_track[i + 3][1]
-        #                 elif 'servo' in str(event_track[i + 3]):
-        #                     """
-        #                     if servo arm opens, outcome presented
-        #                     """
-        #                     current_trial.reward = 1
-        #                     current_trial.outcome = event_track[i + 3][1]
-        #
-        #                     """Write oucome collection"""
-        #                     if 'taken' in str(event_track[i+4]):
-        #                         current_trial.collection = event_track[i + 4][1]
-        #                         current_trial.termination = event_track[i + 4][1]
-        #                     elif "quit" in str(event_track[i+4]):
-        #                         """
-        #                         animal rejects pellet and move on to the next restaurant
-        #                         """
-        #                         current_trial.outcome = event_track[i+4][1]
-        #                         current_trial.quit = 1
-        #                         current_trial.termination = event_track[i+4][1]
-        #     current_trial.exit = event_track[-1][1]
+                    reject_index = getindex(event_track[j:], 'reject') + j
+                    current_trial.choice = event_track[reject_index][1]
+                    current_trial.termination = event_track[reject_index][1]
+            if offer is False and "taken" in str(event_track[j]):
+                """offer tone missing but reward was taken"""
+                current_trial.reward = 1
+                current_trial.collection= event_track[j][1]
+                current_trial.choice = event_track[j - 1][1]
+                if 'offer zone' in str(event_track[:j]):
+                    offerzone_entry = getindex(event_track, 'offer zone')
+                    current_trial.initiation = event_track[offerzone_entry][1]
+                elif 'hall' in str(event_track[:j]):
+                    hall_entry = getindex(event_track, 'hall')
+                    current_trial.initiation = event_track[hall_entry][1]
+                current_trial.termination = event_track[j][1]
+                if 'enter' in event_track[j-1]:
+                    current_trial.comment = 'offer tone timestamp missing, used restaurant entry timestamp for choice'
+                if 'tentry' in event_track[j-1]:
+                    current_trial.comment = 'offer tone timestamp missing, used t junction entry timestamp for choice'
+            if offer is False and 'noreward' in str(event_track[j]):
+                """offer tone missing but no-reward timestampped"""
+                current_trial.outcome = event_track[j][1]
+                if 'offer zone' in str(event_track[:j]):
+                    offerzone_entry = getindex(event_track, 'offer zone')
+                    current_trial.initiation = event_track[offerzone_entry][1]
+                    current_trial.comment = 'offer tone missing but no-reward timestampped, used the next reject ' \
+                                            'timestamp as choice and termination and offer zone entry as initiation'
+                elif 'hall' in str(event_track[:j]):
+                    hall_entry = getindex(event_track, 'hall')
+                    current_trial.initiation = event_track[hall_entry][1]
+                    current_trial.comment = 'offer tone missing but no-reward timestampped, used the next ' \
+                                            'reject timestamp as choice and termination and hall entry as initiation'
+                if 'reject' in str(event_track[j:]):
+                    reject_index = getindex(event_track[j:], 'reject') + j
+                    current_trial.choice = event_track[reject_index][1]
+                    current_trial.termination = event_track[reject_index][1]
         current_trial = current_trial.next
 
 
@@ -303,9 +288,9 @@ def write_lap_block(trials):
     block = 0
     lap = 0
     current_trial = current_trial.next
-    while current_trial != trials.sentinel:
+    while current_trial != trials.sentinel.prev:
         if current_trial.initiation:
-            if current_trial.prev.initiation is None:
+            if current_trial.prev.initiation is None and current_trial.prev.prev.initiation is None:
                 block += 1
                 lap = 0
             elif sequence[current_trial.prev.restaurant] == current_trial.restaurant:
@@ -314,9 +299,11 @@ def write_lap_block(trials):
             current_trial.lapIndex = lap
             current_trial.blockIndex = block
         elif current_trial.initiation is None:
-            if current_trial.prev.initiation:
+            if current_trial.prev.initiation and current_trial.next.initiation is None:
                 block += 1
+                lap = 0
             current_trial.blockIndex = block
+            current_trial.lapIndex = lap
         current_trial = current_trial.next
 
 
