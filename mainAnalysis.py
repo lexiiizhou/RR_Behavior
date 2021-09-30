@@ -6,29 +6,24 @@ import classes as cl
 
 
 def preprocessing(filepath, eventcodedict):
-    bonsai_output = pd.read_csv(filepath, names=['timestamp'])
+    names = ['timestamp', 'eventcode']
+    bonsai_output = pd.read_csv(filepath, sep=" ", index_col=False, names=names)[['timestamp', 'eventcode']]
+
+    def strip(t):
+        if type(t) is str:
+            t = t.replace(" ", "")
+        return t
+
     keys = list(eventcodedict.keys())
-
-    bonsai_output['eventcode'] = bonsai_output['timestamp']. \
-        map(lambda code: re.findall('[0-9]', code))
-    bonsai_output['length'] = bonsai_output['eventcode'].map(lambda code: len(code))
-    bonsai_output = bonsai_output[bonsai_output['length'] >= 13].drop(columns=['length'])
-
-    bonsai_output['timestamp'] = bonsai_output['eventcode']. \
-        map(lambda code: float("".join(code[:12])) / 1000)
-    bonsai_output['eventcode'] = bonsai_output['eventcode']. \
-        map(lambda code: int("".join(code[12:])))
-    bonsai_output = bonsai_output[bonsai_output.eventcode.isin(keys)]. \
-        reset_index(drop=True)
-
-    bonsai_output['event'] = bonsai_output['eventcode']. \
-        map(lambda code: eventcodedict[code])
+    bonsai_output['timestamp'] = bonsai_output['timestamp'].map(strip).astype(float)
+    bonsai_output = bonsai_output[bonsai_output.eventcode.isin(keys)].reset_index(drop=True)
+    bonsai_output['event'] = bonsai_output['eventcode'].map(lambda code: eventcodedict[code])
     first_timestamp = bonsai_output.iloc[0, 0]
     firsthall = bonsai_output[bonsai_output['eventcode'] == 9].index[0]
-    bonsai_output['timestamp'] = bonsai_output['timestamp']. \
-        map(lambda t: (t - first_timestamp) / 1000)
+    bonsai_output['timestamp'] = bonsai_output['timestamp'].map(lambda t: (t - first_timestamp) / 1000)
     bonsai_output = bonsai_output[['event', 'timestamp', 'eventcode']]
     bonsai_output_final = bonsai_output[firsthall:]
+
     events_list = bonsai_output_final.values.tolist()
 
     def restaurant_extractor(events_list):
@@ -121,6 +116,7 @@ def trial_writer(events_list):
     current = events_list.sentinel.next
     i = 0
     trial = cl.Trial(get_bonsai_event_item(current.item), [current.item], i)
+    i+=1
     current_restaurant = current.restaurant
 
     current = current.next
@@ -190,7 +186,7 @@ def trial_info_filler(trials):
                         quit_index = getindex(sublist[rewarded_index:], 'quit') + rewarded_index
                         current_trial.outcome = sublist[quit_index][1]
                         current_trial.termination = sublist[quit_index][1]
-                if 'taken' in str(sublist):
+                elif 'taken' in str(sublist):
                     """rewarded tone missing"""
                     taken_index = getindex(sublist, 'taken')
                     current_trial.reward = 1
@@ -218,9 +214,7 @@ def trial_info_filler(trials):
 
         """Write events"""
         for j in range(len(event_track)):
-            offer = False
             if "_offer" in str(event_track[j]):
-                offer = True
                 current_trial.initiation = event_track[j][1]
                 current_trial.tone_prob = event_track[j][-1].split('_')[0]
                 if 'tentry' in str(event_track[j:]):
@@ -237,7 +231,7 @@ def trial_info_filler(trials):
                     reject_index = getindex(event_track[j:], 'reject') + j
                     current_trial.choice = event_track[reject_index][1]
                     current_trial.termination = event_track[reject_index][1]
-            if offer is False and "taken" in str(event_track[j]):
+            if "_offer" not in str(event_track) and "taken" in str(event_track[j]):
                 """offer tone missing but reward was taken"""
                 current_trial.reward = 1
                 current_trial.collection= event_track[j][1]
@@ -253,7 +247,7 @@ def trial_info_filler(trials):
                     current_trial.comment = 'offer tone timestamp missing, used restaurant entry timestamp for choice'
                 if 'tentry' in event_track[j-1]:
                     current_trial.comment = 'offer tone timestamp missing, used t junction entry timestamp for choice'
-            if offer is False and 'noreward' in str(event_track[j]):
+            if "_offer" not in str(event_track) and 'noreward' in str(event_track[j]):
                 """offer tone missing but no-reward timestampped"""
                 current_trial.outcome = event_track[j][1]
                 if 'offer zone' in str(event_track[:j]):

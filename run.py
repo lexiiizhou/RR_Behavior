@@ -28,6 +28,7 @@ def write_trials(input_folder):
     :return:
     """
     bonsai_files = list_files(input_folder, '.csv')
+    excel_files = []
     for file in bonsai_files:
         pathPrefix = os.path.dirname(file)
         sessionname = str(file).split('/')[-1].split('.')[0].split('2021')[0]
@@ -47,5 +48,7 @@ def write_trials(input_folder):
         trials_df = write_trial_to_df(trials)
         trials_df.to_csv(pathPrefix + "/" + sessionname + "/" + "trials.csv")
 
+    for i in excel_files:
+        os.remove(i)
 
 write_trials(input_folder)
