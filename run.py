@@ -28,27 +28,36 @@ def write_trials(input_folder):
     :return:
     """
     bonsai_files = list_files(input_folder, '.csv')
-    excel_files = []
     for file in bonsai_files:
         pathPrefix = os.path.dirname(file)
         sessionname = str(file).split('/')[-1].split('.')[0].split('2021')[0]
         if not os.path.isdir(pathPrefix + "/" + sessionname):
             os.mkdir(pathPrefix + "/" + sessionname)
-        events = detect_keyword_in_event(preprocessing(file, eventcodedict))
-        events_list = clean_and_organize(events)
-        list_of_bonsaievents = write_bonsaiEvent_dll(events_list)
 
+        # Save raw bonsai output with event description
+        events = preprocessing(file, eventcodedict_full)
+        list_of_bonsaievents = write_bonsaiEvent_dll(events)
         bonsaiEvent_df = write_dll_to_df(list_of_bonsaievents)
-        bonsaiEvent_df.to_csv(pathPrefix + "/" + sessionname + "/" + "bonsai.csv")
+        bonsaiEvent_df.to_csv(pathPrefix + "/" + sessionname + "/" + "raw_bonsai_" + sessionname + '.csv')
 
-        trials = trial_writer(list_of_bonsaievents)
+        # Save selected bonsai evnets
+        events_partial = detect_keyword_in_event(preprocessing(file, eventcodedict_partial))
+        events_list_partial = clean_and_organize(events_partial)
+        list_of_bonsaievents_partial = write_bonsaiEvent_dll(events_list_partial)
+        bonsaiEventPartial_df = write_dll_to_df(list_of_bonsaievents_partial)
+        bonsaiEventPartial_df.to_csv(pathPrefix + "/" + sessionname + "/" + "bonsai_" + sessionname + '.csv')
+
+        trials = trial_writer(list_of_bonsaievents_partial)
         trial_info_filler(trials)
+        trial_merger(trials)
         write_lap_block(trials)
 
         trials_df = write_trial_to_df(trials)
-        trials_df.to_csv(pathPrefix + "/" + sessionname + "/" + "trials.csv")
+        trials_df.to_csv(pathPrefix + "/" + sessionname + "/" + "all_trials_" + sessionname + '.csv')
 
-    for i in excel_files:
-        os.remove(i)
+        valid_trials_df = save_valid_trial(trials_df)
+        valid_trials_df.to_csv(pathPrefix + "/" + sessionname + "/" + "trials_" + sessionname + '.csv')
+
 
 write_trials(input_folder)
+
