@@ -1,6 +1,5 @@
 # RR_Behavior
 
-@author: Lexi Zhou
 This pipeline loads raw Bonsai RR behavior LOG into trial structures for further analysis.
 
 run this command to integrate code to `U19_CADA_analysis` (assuming in the root folder with RR_Behavior, this repo, and U19_CADA_analysis the target repo)
