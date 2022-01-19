@@ -36,19 +36,20 @@ def write_trials(input_folder):
         if not os.path.isdir(pathPrefix + "/" + sessionname):
             os.mkdir(pathPrefix + "/" + sessionname)
 
-        # Save raw bonsai output with event description
+        # Save raw bonsai output with event description --> raw behavior LOG human readable
         events = preprocessing(file, eventcodedict_full)
         list_of_bonsaievents = write_bonsaiEvent_dll(events)
         bonsaiEvent_df = write_dll_to_df(list_of_bonsaievents)
         bonsaiEvent_df.to_csv(pathPrefix + "/" + sessionname + "/" + "raw_bonsai_" + sessionname + '.csv')
 
-        # Save selected bonsai evnets
+        # Save selected bonsai events --> cleaned behavior LOG, dropping nonsense
         events_partial = detect_keyword_in_event(preprocessing(file, eventcodedict_partial))
         events_list_partial = clean_and_organize(events_partial)
         list_of_bonsaievents_partial = write_bonsaiEvent_dll(events_list_partial)
         bonsaiEventPartial_df = write_dll_to_df(list_of_bonsaievents_partial)
         bonsaiEventPartial_df.to_csv(pathPrefix + "/" + sessionname + "/" + "bonsai_" + sessionname + '.csv')
-
+        
+        # trial structure containing pseudotrials
         trials = trial_writer(list_of_bonsaievents_partial)
         trial_info_filler(trials)
         trial_merger(trials)
@@ -56,7 +57,8 @@ def write_trials(input_folder):
 
         trials_df = write_trial_to_df(trials)
         trials_df.to_csv(pathPrefix + "/" + sessionname + "/" + "all_trials_" + sessionname + '.csv')
-
+        
+        # trial structure with only valid trials
         valid_trials_df = save_valid_trial(trials_df)
         valid_trials_df.to_csv(pathPrefix + "/" + sessionname + "/" + "trials_" + sessionname + '.csv')
 
