@@ -361,6 +361,8 @@ def write_trial_to_df(trials):
 
 
 def save_valid_trial(df):
-    new_df = df[df.trial_end.notnull()]
-    new_df = new_df.sort_values(by=['tone_onset'])
+    df = df[df.loc[:, ['trial_end', 'tone_onset', 'T_Entry']].notnull().all(axis='columns')]
+    df = df.query('tone_onset < T_Entry and T_Entry < choice and trial_end < exit and outcome < collection')
+
+    new_df = df.sort_values(by=['tone_onset'])
     return new_df
