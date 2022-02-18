@@ -324,7 +324,6 @@ def add_stimulation_events(trials, eventslist):
             end = current_trial.exit
             stim_index = np.where((events[:, 1].astype(float) > start) & (events[:, 1].astype(float) < end))
             for i in stim_index[0]:
-                meow = events[i, 2]
                 if events[i, 2].astype(int) == 99:
                     current_trial.stimulation_on = events[i, 1]
                 elif events[i, 2].astype(int) == 199:
