@@ -325,12 +325,11 @@ def add_stimulation_events(trials, eventslist):
             start = current_trial.tone_onset
             end = current_trial.exit
             stim_index = np.where((events[:, 1].astype(float) > start) & (events[:, 1].astype(float) < end))
-            if start >= 100:
-                for i in stim_index[0]:
-                    if 99 in events[i-5:i, 2].astype(int) and current_trial.stimulation_on is None:
-                        current_trial.stimulation_on = events[i, 1]
-                    elif 199 in events[i:i+5, 2].astype(int) and current_trial.stimulation_off is None:
-                        current_trial.stimulation_off = events[i, 1]
+            for i in stim_index[0]:
+                if 99 in events[i-5:i, 2].astype(int) and current_trial.stimulation_on is None:
+                    current_trial.stimulation_on = events[i, 1]
+                elif 199 in events[i:i+5, 2].astype(int) and current_trial.stimulation_off is None:
+                    current_trial.stimulation_off = events[i, 1]
         current_trial = current_trial.next
 
 
