@@ -326,10 +326,15 @@ def add_stimulation_events(trials, eventslist):
             end = current_trial.exit
             stim_index = np.where((events[:, 1].astype(float) > start) & (events[:, 1].astype(float) < end))
             for i in stim_index[0]:
-                if 99 in events[i-5:i, 2].astype(int) and current_trial.stimulation_on is None:
-                    current_trial.stimulation_on = events[i, 1]
-                elif 199 in events[i:i+5, 2].astype(int) and current_trial.stimulation_off is None:
-                    current_trial.stimulation_off = events[i, 1]
+                if i > 160:
+                    if 99 in events[i-5:i, 2].astype(int) and current_trial.stimulation_on is None:
+                        on_index = np.where(events[i-5:i, 2].astype(int) == 99)[0]
+                        current_trial.stimulation_on = events[i-5+on_index, 1][0]
+                    if 199 in events[i:i+5, 2].astype(int):
+                        if current_trial.stimulation_off is None and current_trial.stimulation_on:
+                            off_index = np.where(events[i:i+5, 2].astype(int) == 199)[0]
+                            current_trial.stimulation_off = events[i+off_index, 1][0]
+                            # assert float(current_trial.stimulation_off) - float(current_trial.stimulation_on) <= 2
         current_trial = current_trial.next
 
 
