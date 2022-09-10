@@ -26,6 +26,7 @@ def preprocessing(filepath, eventcodedict):
     first = bonsai_output[bonsai_output['eventcode'] == 9].index[0]
     bonsai_output = bonsai_output[bonsai_output['eventcode'] != 9]
     bonsai_output['timestamp'] = bonsai_output['timestamp'].map(lambda t: (t - first_timestamp) / 1000)
+    # bonsai_output['timestamp'] = bonsai_output['timestamp'].map(lambda t: (t / 1000))
     bonsai_output = bonsai_output[['event', 'timestamp', 'eventcode']]
     bonsai_output_final = bonsai_output[first:]
 
@@ -36,7 +37,7 @@ def preprocessing(filepath, eventcodedict):
             if int(events_list[i][-1]) == 199:
                 events_list[i].append(events_list[i-1][-1])
             if int(events_list[i][-1]) == 99:
-                offer_index = [idx for idx, element in enumerate(events_list[i:i+4]) if element[0].__contains__('offer')][0]
+                offer_index = [idx for idx, element in enumerate(events_list[i:i+6]) if element[0].__contains__('offer')][0]
                 integers = re.findall('[0-9]+', events_list[i+offer_index][0])
                 for j in integers:
                     if 5 > int(j) > 0:

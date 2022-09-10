@@ -5,7 +5,7 @@ import os
 from clean_bonsai_output import *
 from eventcodedict import *
 
-input_folder = '/Users/lexizhou/Desktop/RRM040'
+input_folder = '/Users/lexizhou/Desktop/RR_test'
 
 
 def list_files(dir, type):
